@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  relaybot:
+    # Собираем образ из Dockerfile в текущей директории
+    build: .
+    container_name: telegram_relay_bot
+    # Перезапускать контейнер всегда, кроме случая явной остановки
+    restart: unless-stopped
+    # Подключаем файл .env из текущей директории хоста внутрь контейнера
+    # Контейнер будет читать переменные из этого файла
+    env_file:
+      - .env
+    # Сети (опционально для одного контейнера, но полезно для расширения)
+    networks:
+      - bot_network
+
+networks:
+  bot_network:
+    driver: bridge
